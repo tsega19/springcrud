@@ -2,11 +2,16 @@ package com.crud.todo;
 
 import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 
-public class video {
+public class Video {
     private String title;
-    @JsonIncludeProperties
+
     private String description;
 
+    public Video(String title, String description) {
+        this.title = title;
+        this.description = description;
+       
+    }
     // generate getter and setter
     public String getTitle() {
         return title;
