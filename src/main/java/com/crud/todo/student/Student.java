@@ -2,10 +2,10 @@ package com.crud.todo.student;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
+
 
 import java.time.LocalDate;
-import java.util.Date;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -28,5 +28,10 @@ public class Student {
     private  String name;
     private String email;
     private LocalDate dob;
-    private  Integer age;
+    @Transient
+    private Integer age;
+    
+    public Integer getAge(){
+        return LocalDate.now().getYear() - dob.getYear();
+    }
 }

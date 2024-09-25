@@ -30,4 +30,14 @@ public class StudentController {
         }
         return  ResponseEntity.badRequest().build();
     }
+    @PutMapping(path="{StudentId}")
+    public void updateStudent(@PathVariable("StudentId") Long StudentId,
+                              @RequestParam (required = false) String name,
+                              @RequestParam (required = false) String email){
+        studentService.updateStudent(StudentId, name, email);
+    }
+    @DeleteMapping(path="{StudentId}")
+    public void deleteStudent(@PathVariable("StudentId") Long StudentId){
+        studentService.deleteStudent(StudentId);
+    }
 }
