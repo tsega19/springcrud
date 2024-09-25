@@ -4,44 +4,48 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
 public class VideoController {
 
+
+
+
     @Autowired
     VideoService vService;
 
-    @GetMapping("/video")    
-    public List<Video> getVideo(){
-      return VideoService.getVideos();
+    // @GetMapping("all/video")
+    // public List<Video> gVideos()
+    // {
+    //   return vService.getAllVideo();
+    // }
+
+    @GetMapping("/video/title")
+    public ResponseEntity<List<Video>> getVideoTitle(@RequestParam(required = false) String title) throws VideoNotFoundException {
+      if(title == null){
+        return new ResponseEntity<>(vService.getAllVideo(), HttpStatus.OK);
+      }
+      List<Video> fVideos = new ArrayList<>();
+      Video video = vService.getVideoByTitle(title);
+      fVideos.add(video);
+      if (fVideos.isEmpty()) {
+        throw new VideoNotFoundException(title);
+      }
+      return new ResponseEntity<>(fVideos, HttpStatus.OK);
     }
-    @GetMapping("/videos/title")
-    public ResponseEntity<List<Video>> getVideoTitle(@RequestParam (required = false) String title){
-       List<Video> v = new ArrayList<>();   
-       Video video = VideoService.getVideoByTitle(title);
-        if (video != null) {
-            v.add(video);
-        } 
-        if(v.isEmpty()){
-          VideoNotFoundException vException = new VideoNotFoundException(title);
-          vException.geExeptioString();
-        }
-        return ResponseEntity.ok(v);
-        
-    }
-       
-    @RequestMapping("videoPost")
-    public void addVideo(@RequestBody Video video){
-        VideoService.addVideo(video);
+
+
+    @PostMapping("/videoPost")
+    public ResponseEntity<String> addVideo(@RequestBody Video video){
+       boolean hasadd = vService.addVideo(video);
+        if(hasadd){
+           return ResponseEntity.ok().build();
+       }
+        return ResponseEntity.badRequest().build();
     }
 }
 

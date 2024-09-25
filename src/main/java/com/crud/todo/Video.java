@@ -1,8 +1,19 @@
 package com.crud.todo;
 
-import com.fasterxml.jackson.annotation.JsonIncludeProperties;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import lombok.Getter;
+import lombok.Setter;
 
+@Setter
+@Getter
+@Entity
 public class Video {
+
+    @GeneratedValue
+    @Id
+    private Integer Id;
     private String title;
 
     private String description;
@@ -10,21 +21,13 @@ public class Video {
     public Video(String title, String description) {
         this.title = title;
         this.description = description;
-       
     }
-    // generate getter and setter
-    public String getTitle() {
-        return title;
-    }
-    public void setTitle(String title) {
-        this.title = title;
+    public Video() {
     }
 
-    public String getDescription() {
-        return description;
-    }
-    public void setDescription(String description) {
-        this.description = description;
+    public void getVideos() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getVideos'");
     }
 
 }
